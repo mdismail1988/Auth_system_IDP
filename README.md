@@ -1,5 +1,36 @@
 # Auth_system_IDP
 
+## 1. Project Overview
+This project implements a secure authentication system with two microservices:
+- **Authentication Gateway**: Manages authentication attempts, validates JWT tokens.
+- **Identity Provider (IDP)**: Validates user credentials, issues signed JWT tokens (OIDC compliant).
+
+## Authentication Flow
+
+**Steps**:
+1. Client → Gateway: Create authentication attempt.
+2. Gateway → Client: Returns attempt ID.
+3. Client → Gateway: Accept attempt with password.
+4. Gateway → IDP: Validates credentials, requests JWT token.
+5. Gateway → Client: Returns JWT access token.
+
+## Technology Stack
+- **Language**: Kotlin
+- **Framework**: Spring Boot 3
+- **Security**: Spring Security, OAuth2 Resource Server
+- **Databases**: SQLite (IDP)
+- **API Docs**: Swagger (springdoc-openapi)
+- **Containerization**: Docker, Docker Compose
+- **JDK**: OpenJDK 21
+
+## Features
+- Authentication Attempt Lifecycle (PENDING → ACCEPTED/REJECTED/EXPIRED)
+- Secure inter-service communication (OAuth2)
+- Centralized exception handling
+- API documentation via Swagger UI
+
+
+
 ## _API_
 
 ### Swagger: 
@@ -51,6 +82,12 @@ open JDK 21
     - Run `docker-compose up --build` to start the services.
     - 'docker-compose up' --build -d to run in detached mode
     - Addtional Note : if build fails - 'mvn -N io.takari:maven:wrapper' & 'chmod +x mvnw' run this in each project directory to generate the maven wrapper
+
+## How to Run
+###  Docker Compose**
+```bash
+docker-compose build
+docker-compose up
 
 ### Test with Postman - IDP Service
 
