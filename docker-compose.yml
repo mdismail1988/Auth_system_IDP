@@ -1,0 +1,31 @@
+version: '3.9'
+services:
+  idp-service:
+    build: ./idp-service
+    container_name: idp-service
+    ports:
+      - "9091:9091"
+    environment:
+      SPRING_PROFILES_ACTIVE: docker
+    networks:
+      - auth-network
+
+  authentication-gateway:
+    build: ./auth-gateway-service
+    container_name: authgateway-service
+    depends_on:
+      - idp-service
+    ports:
+      - "9090:9090"
+    environment:
+      - IDP_SERVICE_HOST=http://idp-service:9091
+      - SPRING_PROFILES_ACTIVE=docker
+    networks:
+      - auth-network
+
+networks:
+  auth-network:
+    driver: bridge
+
+volumes:
+  idp-db:
